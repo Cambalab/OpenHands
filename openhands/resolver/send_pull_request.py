@@ -232,7 +232,7 @@ def send_pull_request(
     if target_branch:
         base_branch = target_branch
         # Verify the target branch exists
-        response = requests.get(f'{base_url}/branches/{target_branch}', headers=headers)
+        response = requests.get(handler.get_branch_url(target_branch), headers=headers)
         if response.status_code != 200:
             raise ValueError(f'Target branch {target_branch} does not exist')
     else:

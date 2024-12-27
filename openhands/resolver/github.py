@@ -24,6 +24,10 @@ class IssueHandlerInterface(ABC):
         pass
 
     @abstractmethod
+    def get_branch_url(self, branch_name):
+        pass
+
+    @abstractmethod
     def get_download_url(self):
         pass
 
@@ -59,6 +63,9 @@ class GithubIssueHandler(IssueHandlerInterface):
 
     def get_base_url(self):
         return f'https://api.github.com/repos/{self.owner}/{self.repo}'
+
+    def get_branch_url(self, branch_name: str):
+        return self.get_base_url() + f'/branches/{branch_name}'
 
     def get_download_url(self):
         return f'{self.base_url}/issues'
