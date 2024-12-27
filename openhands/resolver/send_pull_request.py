@@ -189,8 +189,12 @@ def make_commit(repo_dir: str, issue: Issue, issue_type: str) -> None:
 
 
 def branch_exists(base_url: str, branch_name: str, headers: dict) -> bool:
+    issue = ResolverOutput.issue
+    handler = ServiceContext(
+        GithubIssueHandler(issue.owner, issue.repo, token, username), llm_config
+    )
     print(f'Checking if branch {branch_name} exists...')
-    response = requests.get(f'{base_url}/branches/{branch_name}', headers=headers)
+    response = requests.get(handler.get_branch_url(branch_name), headers=headers)
     exists = response.status_code == 200
     print(f'Branch {branch_name} exists: {exists}')
     return exists
